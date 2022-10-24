@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -12,7 +12,7 @@ import AccessTimeFilledIcon from '@mui/icons-material/AccessTimeFilled';
 import PaidIcon from '@mui/icons-material/Paid';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { Button, ButtonGroup, IconButton } from '@mui/material';
+import { Button, ButtonGroup, IconButton, Typography } from '@mui/material';
 import QrCodeScannerIcon from '@mui/icons-material/QrCodeScanner';
 import { Box } from '@mui/system';
 import AddIcon from '@mui/icons-material/Add';
@@ -22,35 +22,39 @@ import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 import { Navigate, useNavigate } from 'react-router-dom';
 import { Counter } from './counter/Counter';
 import { useDispatch } from 'react-redux';
+import Divider from '@mui/material/Divider';
+
 import { addOrder } from './slices/ordenesactivas';
 export const TableProducts = () => {
     const dispatch = useDispatch();
     const [listOfOrders, setlistOfOrders] = useState([]);
+    const [total, setTotal] = useState(0);
     const navigate = useNavigate();
     function createData(
         id,
         name,
-        descripcion,
-        time,
         price,
         quantity
     ) {
         return {
             id,
             name,
-            descripcion,
-            time,
             price,
             quantity,
         };
     }
 
     const rows = [
-        createData('id_tacos', 'Tacos', 'Ricos tacos mexicanos', '6.0 min', 3.50, 0),
-        createData('id_tortas', 'Tortas', 'Ricos tortas de carne', '10.0 min', 4.25, 0),
-        createData('id_nachos', 'Nachos', 'Ricos nachos con queso', '5.0 min', 3.25, 0),
-        createData('id_carne', 'Carne Asada', 'Deliciosa carne asada blandita', '15.0 min', 5.25, 0),
+        createData('id_tacos', 'Tacos', 3.50, 0),
+        createData('id_tortas', 'Tortas', 4.25, 0),
+        createData('id_nachos', 'Nachos', 3.25, 0),
+        createData('id_carne', 'Carne Asada', 5.25, 0),
     ];
+
+
+    
+
+
     const [orden, setOrden] = useState(rows);
     const incrementingProduct = (id) => {
         orden.forEach((values) => {
@@ -76,18 +80,26 @@ export const TableProducts = () => {
             }
         });
     };
-    const orderFilter = orden.filter( (values)=> values.quantity > 0);
+    const orderFilter = orden.filter((values) => values.quantity > 0);
     const handlerOrden = () => {
-        dispatch(addOrder(...orderFilter));
+        console.log(...orderFilter);
+        dispatch(addOrder([...orderFilter, total]));
         //  setlistOfOrders([...orderFilter]);
-          setOrden(rows);
+        setOrden(rows);
         //  navigate('/ordenes',{
         //     state: {
         //         listOfOrders
         //     }
         //   })
-     };
-     console.log(listOfOrders);
+    };
+    //console.log(orderFilter);
+    useEffect(() => {
+        let totalHere = 0;
+        orden.forEach( (values) =>{
+            totalHere = totalHere + values.quantity*values.price;
+            setTotal(totalHere);
+        });
+    }, [orden])
     return (
         <>
             <TableContainer component={Paper}>
@@ -96,17 +108,15 @@ export const TableProducts = () => {
                         <TableRow>
                             <TableCell> <QrCodeScannerIcon /> ID (Producto) </TableCell>
                             <TableCell> <FastfoodIcon /> Nombre (Producto) </TableCell>
-                            <TableCell align="right"> <DescriptionIcon /> Descripcion</TableCell>
-                            <TableCell align="right"> <AccessTimeFilledIcon /> Tiempo de preparacion</TableCell>
                             <TableCell align="right"> <PaidIcon /> Precio ($)</TableCell>
-                            <TableCell align="right"><AddShoppingCartIcon/> Cantidad a ordenar</TableCell>
+                            <TableCell align="right"><AddShoppingCartIcon /> Cantidad a ordenar</TableCell>
                             <TableCell align="right"><AddCircleIcon />Agregar Producto</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
                         {orden.map((row) => (
                             <TableRow
-                                key={row.name}
+                                key={row.id}
                                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                             >
 
@@ -114,8 +124,6 @@ export const TableProducts = () => {
                                     {row.id}
                                 </TableCell>
                                 <TableCell align="left">{row.name}</TableCell>
-                                <TableCell align="right">{row.descripcion}</TableCell>
-                                <TableCell align="right">{row.time}</TableCell>
                                 <TableCell align="right">{row.price} $</TableCell>
                                 <TableCell align="right">{row.quantity} </TableCell>
                                 <TableCell align="right"> <ButtonGroup>
@@ -150,7 +158,7 @@ export const TableProducts = () => {
                     '& > :not(style)': {
                         m: 1,
                         width: 700,
-                        height: 350 ,
+                        minHeight: 400,
                     },
                 }}
             >
@@ -158,13 +166,32 @@ export const TableProducts = () => {
                     orden.some((values) => values.quantity > 0) &&
                     // <OrderDetail orden={orden}/>
                     <Paper elevation={3} >
-                    <h1>Orden:</h1>
-                    {
-                        orderFilter.map( (values) => {
-                            return <h1 key={values.id}>Producto: {values.name} || Cantidad: {values.quantity} = Precio: {values.price*values.quantity}$</h1>
-                        } )
-                    }
-                          <Button onClick={handlerOrden} style={{backgroundColor: "#fff"}} variant="contained"><AddShoppingCartIcon/>Agregar Orden</Button>
+                        <h1>Orden:</h1>
+                        {/* <Typography sx={{
+                            display: 'inline-block',
+                            marginTop: 2
+                        }} variant="h3" gutterBottom>
+                            Orden:
+                        </Typography>
+                        <Typography sx={{
+                            display: 'inline-block',
+                            marginLeft: 50
+                        }} variant="h3" gutterBottom>
+                            Total:
+                        </Typography> */}
+                        <Divider />
+                        {
+                            orderFilter.map((values) => {
+                                return (
+                                    <div key={values.id}>
+                                        <h1 >Cantidad: {values.quantity} || Producto: {values.name} = Precio: {values.price * values.quantity}$</h1>
+                                        <Divider />
+                                    </div>
+                                )
+                            })
+                        }
+                        <h1>Total: $ {total}</h1>
+                        <Button onClick={handlerOrden} style={{ backgroundColor: "#fff", marginTop: 10 }} variant="contained"><AddShoppingCartIcon />Agregar Orden</Button>
                     </Paper>
 
                 }

@@ -15,14 +15,14 @@ import { NavLink, Outlet, useNavigate } from 'react-router-dom';
 import FastfoodIcon from '@mui/icons-material/Fastfood';
 import { Avatar, Container } from '@mui/material';
 import AdbIcon from '@mui/icons-material/Adb';
-const pages = ['Marvel', 'DC', 'Search'];
+const pages = ['ORDENES ACTIVAS','BUSCAR ORDEN'];
 
 export const NavBar = () => {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
-    console.log('me accione')
+    //console.log('me accione')
   };
 
   const handleCloseNavMenu = () => {
@@ -79,7 +79,7 @@ export const NavBar = () => {
                   textDecoration: 'none',
                 }}
               >
-                Restaurante
+                Mr.Charro
               </Typography>
 
               <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
@@ -135,7 +135,7 @@ export const NavBar = () => {
                   textDecoration: 'none',
                 }}
               >
-                Restaurante
+                Mr.Charro
               </Typography>
               <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
                 <Button
@@ -151,7 +151,7 @@ export const NavBar = () => {
                     Ordenes Activas
                   </MenuItem>
                 </Button>
-                <Button
+                {/* <Button
                   sx={{ my: 2, color: 'white', display: 'block' }}
 
                 >
@@ -163,7 +163,7 @@ export const NavBar = () => {
                   }} component={NavLink} to={"/pagar"}>
                     Pagar
                   </MenuItem>
-                </Button>
+                </Button> */}
                 <Button
                   sx={{ my: 2, color: 'white', display: 'block' }}
 
