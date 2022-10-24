@@ -4,7 +4,7 @@ import { useLocation } from 'react-router-dom';
 import { Box } from '@mui/system';
 import Paper from '@mui/material/Paper';
 import PrintIcon from '@mui/icons-material/Print';
-import { Button } from '@mui/material';
+import { Button, Divider } from '@mui/material';
 
 export const Orden = () => {
   const ordenes = useSelector((state) => state.ordenes.value);
@@ -20,16 +20,17 @@ export const Orden = () => {
               <Box
               key={index}
               sx={{
-                  display: 'inline-block',
+                  display: 'inline-flex',
                   alignItems: 'center',
                   justifyContent: 'center',
                   textAlign: 'center',
+
                   align: 'center',
                   flexWrap: 'wrap',
                   '& > :not(style)': {
                       m: 1,
-                      width: 400,
-                      minHeight: 400,
+                      width: 500,
+                      minHeight: 500,
                   },
               }}
           >
@@ -37,15 +38,16 @@ export const Orden = () => {
                 {
                   ordenesList.filter((values, idx) => idx < ordenesList.length - 1).map((values, index) => {
                     return (
-                      <h1 key={index}>{values.quantity} {values.name} - Precio: {values.price * values.quantity}
-                      </h1>
-                      
+                      <div key={index}>
+                      <h1 >{values.quantity} orden de {values.name} Precio: {values.price * values.quantity}$</h1>
+                      <Divider />
+                  </div>
                     )
                   })
 
                 }
-                <h1>Total: ${valorTotal}</h1>
-                <Button style={{ backgroundColor: "#fff", marginTop: 10 }} variant="contained"><PrintIcon />Imprimir Ticket</Button>
+                 <h1>Total: ${valorTotal}</h1> 
+                  <Button style={{ backgroundColor: "#fff"}} variant="contained"><PrintIcon />Imprimir Ticket</Button>
 
                 </Paper>
               </Box>
