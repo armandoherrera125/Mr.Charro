@@ -1,21 +1,19 @@
 import { createSlice } from "@reduxjs/toolkit";
 export const ordenesSlice = createSlice({
     name: 'ordenes',
-    initialState: {
-        value: [],
-    },
+    initialState: [],
     reducers: {
         addOrder: (state, action) =>{
-            state.value.push(action.payload)
+            state.push(action.payload)
         },
-        deleteOrder : state =>{
-            state.value -= 1
-        },
+        deleteOrder : (state, action) =>{
+            return state.filter((values, index)=>index !==action.payload);
+          }
         // incrementByAmount : (state, action) =>{
         //     state.value += action.payload
         // }
 
     },
 })
-export const {addOrder,decrement} = ordenesSlice.actions;
+export const {addOrder,deleteOrder} = ordenesSlice.actions;
 export default ordenesSlice.reducer;

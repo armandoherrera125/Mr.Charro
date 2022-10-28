@@ -4,7 +4,11 @@ import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
+import { styled, alpha } from '@mui/material/styles';
+import InputBase from '@mui/material/InputBase';
+import SearchIcon from '@mui/icons-material/Search';
 import TableRow from '@mui/material/TableRow';
+import MailIcon from '@mui/icons-material/Mail';
 import Paper from '@mui/material/Paper';
 import FastfoodIcon from '@mui/icons-material/Fastfood';
 import DescriptionIcon from '@mui/icons-material/Description';
@@ -12,7 +16,7 @@ import AccessTimeFilledIcon from '@mui/icons-material/AccessTimeFilled';
 import PaidIcon from '@mui/icons-material/Paid';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { Button, ButtonGroup, IconButton, Typography } from '@mui/material';
+import { Badge, Button, ButtonGroup, IconButton, Stack, Typography } from '@mui/material';
 import QrCodeScannerIcon from '@mui/icons-material/QrCodeScanner';
 import { Box } from '@mui/system';
 import AddIcon from '@mui/icons-material/Add';
@@ -25,7 +29,29 @@ import { useDispatch } from 'react-redux';
 import Divider from '@mui/material/Divider';
 
 import { addOrder } from './slices/ordenesactivas';
+import { Search } from '@mui/icons-material';
 export const TableProducts = () => {
+
+
+
+
+
+    const [valores, setvalores] = useState();
+    const [counter, setCounter] = useState(0);
+    useEffect(() => {
+        const getProducts = async () => {
+            const productos = await fetch('https://backend-charro-production.up.railway.app/api/products');
+            const listOfProducts = await productos.json();
+            //console.log(listOfProducts);
+            setOrden(listOfProducts);
+            //setvalores(listOfProducts);
+        };
+        getProducts();
+
+    }, [counter])
+    //console.log(valores);
+
+
     const dispatch = useDispatch();
     const [listOfOrders, setlistOfOrders] = useState([]);
     const [total, setTotal] = useState(0);
@@ -52,11 +78,12 @@ export const TableProducts = () => {
     ];
 
 
-    
 
 
-    const [orden, setOrden] = useState(rows);
+    const [orden, setOrden] = useState([]);
+    //console.log(orden);
     const incrementingProduct = (id) => {
+        //console.log(id);
         orden.forEach((values) => {
             if (id == values.id) {
                 values.quantity = values.quantity + 1;
@@ -82,26 +109,115 @@ export const TableProducts = () => {
     };
     const orderFilter = orden.filter((values) => values.quantity > 0);
     const handlerOrden = () => {
-        console.log(...orderFilter);
         dispatch(addOrder([...orderFilter, total]));
-        //  setlistOfOrders([...orderFilter]);
-        setOrden(rows);
-        //  navigate('/ordenes',{
-        //     state: {
-        //         listOfOrders
+        setCounter(counter + 1);
+        // orden.forEach( (values)=> {
+        //     if (values.quantity !==0) {
+        //         values.quantity = 0;
+        //         setOrden([...orden]);
         //     }
-        //   })
+        // })
+        // console.log(orden);
+        //console.log(...orderFilter);
+        //  setlistOfOrders([...orderFilter]);
+        //setOrden(rows);
+
+          navigate('/ordenes')
     };
     //console.log(orderFilter);
     useEffect(() => {
         let totalHere = 0;
-        orden.forEach( (values) =>{
-            totalHere = totalHere + values.quantity*values.price;
+        orden.forEach((values) => {
+            totalHere = totalHere + values.quantity * values.price;
             setTotal(totalHere);
         });
     }, [orden])
+    const Search = styled('div')(({ theme }) => ({
+        position: 'relative',
+        borderRadius: theme.shape.borderRadius,
+        backgroundColor: alpha(theme.palette.common.white, 0.15),
+        '&:hover': {
+          backgroundColor: alpha(theme.palette.common.white, 0.25),
+        },
+        marginLeft: 0,
+        width: '100%',
+        [theme.breakpoints.up('sm')]: {
+          marginLeft: theme.spacing(1),
+          width: 'auto',
+        },
+      }));
+      
+      const SearchIconWrapper = styled('div')(({ theme }) => ({
+        padding: theme.spacing(0, 2),
+        height: '100%',
+        position: 'absolute',
+        pointerEvents: 'none',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+      }));
+      
+      const StyledInputBase = styled(InputBase)(({ theme }) => ({
+        color: 'inherit',
+        '& .MuiInputBase-input': {
+          padding: theme.spacing(1, 1, 1, 0),
+          // vertical padding + font size from searchIcon
+          paddingLeft: `calc(1em + ${theme.spacing(4)})`,
+          transition: theme.transitions.create('width'),
+          width: '100%',
+          [theme.breakpoints.up('sm')]: {
+            width: '12ch',
+            '&:focus': {
+              width: '20ch',
+            },
+          },
+        },
+      }));
+    //   const [searched, setSearched] = useState("");
+  
+    //   const requestSearch = (searchedVal) => {
+    //     const filteredRows = orden.filter((row) => {
+    //       return row.name.toLowerCase().includes(e.target.value.toLowerCase());
+    //     });
+    //     setOrden(filteredRows);
+    //   };
+    //   const handlerChange = (e) => {
+    //     setSearched(e.target.value);
+    //     const filteredRows = orden.filter((row) => {
+    //         return row.name.toLowerCase().includes(e.target.value.toLowerCase());
+    //       });
+    //       setOrden(filteredRows);
+    //   };
+    
+    //   const cancelSearch = () => {
+    //     setSearched("");
+    //     requestSearch(searched);
+    //   };
+    //   console.log(searched);
     return (
-        <>
+        <Box sx={{
+            display: 'inline-flex',
+            alignItems: 'flex-start',
+            justifyContent: 'left',
+            textAlign: 'center',
+            align: 'center',
+            flexWrap: 'wrap',
+            '& > :not(style)': {
+                m: 1,
+                width: 900,
+                minHeight: 400,
+            },
+        }}>
+            <Paper>
+            {/* <Search>
+            <SearchIconWrapper>
+              <SearchIcon />
+            </SearchIconWrapper>
+            <StyledInputBase
+              placeholder="Buscar..."
+              inputProps={{ 'aria-label': 'search' }}
+            />
+          </Search> */}
             <TableContainer component={Paper}>
                 <Table sx={{ Width: 100, align: 'center' }} aria-label="simple table">
                     <TableHead>
@@ -147,6 +263,7 @@ export const TableProducts = () => {
                     </TableBody>
                 </Table>
             </TableContainer>
+            </Paper>
             <Box
                 sx={{
                     display: 'flex',
@@ -157,7 +274,7 @@ export const TableProducts = () => {
                     flexWrap: 'wrap',
                     '& > :not(style)': {
                         m: 1,
-                        width: 700,
+                        width: 800,
                         minHeight: 400,
                     },
                 }}
@@ -197,6 +314,6 @@ export const TableProducts = () => {
                 }
 
             </Box>
-        </>
+        </Box>
     )
 }

@@ -1,19 +1,26 @@
 import React from 'react'
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 import { Box } from '@mui/system';
 import Paper from '@mui/material/Paper';
 import PrintIcon from '@mui/icons-material/Print';
 import { Button, Divider } from '@mui/material';
+import { deleteOrder } from '../slices/ordenesactivas';
+import { Vuelto } from './Vuelto';
 
 export const Orden = () => {
-  const ordenes = useSelector((state) => state.ordenes.value);
+  const dispatch = useDispatch();
+  const ordenes = useSelector((state) => state.ordenes  );
+  const handlerDeleteOrder = (index) => {
+    dispatch(deleteOrder(index));
+  };
   return (
     <>
       <h1> Ordenes Activas</h1>
+
       <div>
         {
-          ordenes.map((ordenesList, index) => {
+          ordenes?.map((ordenesList, index) => {
             let valorInicial = ordenes[index];
             let valorTotal = valorInicial[valorInicial.length - 1];
             return (
@@ -46,8 +53,9 @@ export const Orden = () => {
                   })
 
                 }
-                 <h1>Total: ${valorTotal}</h1> 
-                  <Button style={{ backgroundColor: "#fff"}} variant="contained"><PrintIcon />Imprimir Ticket</Button>
+                 <h1>Total: ${valorTotal}</h1>
+                 <Vuelto total={valorTotal}/>
+                  <Button onClick={()=>handlerDeleteOrder(index)} style={{ backgroundColor: "#fff"}} variant="contained"><PrintIcon />Imprimir Ticket</Button>
 
                 </Paper>
               </Box>
