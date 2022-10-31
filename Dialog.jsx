@@ -88,7 +88,7 @@ const {nombre, precio} = inputTask;
 
         <DialogActions>
           <Button variant='outlined' color='error' onClick={handleClose}>Cancelar</Button>
-          <Button type='submit' variant='outlined' onClick={formAction} autoFocus>
+          <Button  type='submit' variant='outlined' onClick={formAction} autoFocus>
             Agregar
           </Button>
         </DialogActions>

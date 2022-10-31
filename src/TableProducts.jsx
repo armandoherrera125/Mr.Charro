@@ -16,7 +16,7 @@ import AccessTimeFilledIcon from '@mui/icons-material/AccessTimeFilled';
 import PaidIcon from '@mui/icons-material/Paid';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { Badge, Button, ButtonGroup, IconButton, Stack, Typography } from '@mui/material';
+import { Badge, Button, ButtonGroup, IconButton, Stack, TablePagination, TextField, Typography } from '@mui/material';
 import QrCodeScannerIcon from '@mui/icons-material/QrCodeScanner';
 import { Box } from '@mui/system';
 import AddIcon from '@mui/icons-material/Add';
@@ -31,10 +31,29 @@ import Divider from '@mui/material/Divider';
 import { addOrder } from './slices/ordenesactivas';
 import { Search } from '@mui/icons-material';
 export const TableProducts = () => {
+    const [nameAndDescription, setinputnameAndDescription] = useState({
+        clientName: "",
+        description: ""
+    });
+    const { clientName, description } = nameAndDescription;
+    const handleInputChangeND = ({ target }) => {
+        console.log(target.value);
+        setinputnameAndDescription({
+            ...nameAndDescription,
+            [target.name]: target.value
+        });
+    }
 
+    const [page, setPage] = useState(0);
+    const [rowsPerPage, setRowsPerPage] = useState(4);
+    const handleChangePage = (event, newPage) => {
+        setPage(newPage);
+    };
 
-
-
+    const handleChangeRowsPerPage = event => {
+        setRowsPerPage(+event.target.value);
+        setPage(0);
+    };
 
     const [valores, setvalores] = useState();
     const [counter, setCounter] = useState(0);
@@ -109,7 +128,7 @@ export const TableProducts = () => {
     };
     const orderFilter = orden.filter((values) => values.quantity > 0);
     const handlerOrden = () => {
-        dispatch(addOrder([...orderFilter, total]));
+        dispatch(addOrder([...orderFilter,clientName,description, total]));
         setCounter(counter + 1);
         // orden.forEach( (values)=> {
         //     if (values.quantity !==0) {
@@ -122,7 +141,7 @@ export const TableProducts = () => {
         //  setlistOfOrders([...orderFilter]);
         //setOrden(rows);
 
-          navigate('/ordenes')
+        navigate('/ordenes')
     };
     //console.log(orderFilter);
     useEffect(() => {
@@ -137,17 +156,17 @@ export const TableProducts = () => {
         borderRadius: theme.shape.borderRadius,
         backgroundColor: alpha(theme.palette.common.white, 0.15),
         '&:hover': {
-          backgroundColor: alpha(theme.palette.common.white, 0.25),
+            backgroundColor: alpha(theme.palette.common.white, 0.25),
         },
         marginLeft: 0,
         width: '100%',
         [theme.breakpoints.up('sm')]: {
-          marginLeft: theme.spacing(1),
-          width: 'auto',
+            marginLeft: theme.spacing(1),
+            width: 'auto',
         },
-      }));
-      
-      const SearchIconWrapper = styled('div')(({ theme }) => ({
+    }));
+
+    const SearchIconWrapper = styled('div')(({ theme }) => ({
         padding: theme.spacing(0, 2),
         height: '100%',
         position: 'absolute',
@@ -155,26 +174,26 @@ export const TableProducts = () => {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-      }));
-      
-      const StyledInputBase = styled(InputBase)(({ theme }) => ({
+    }));
+
+    const StyledInputBase = styled(InputBase)(({ theme }) => ({
         color: 'inherit',
         '& .MuiInputBase-input': {
-          padding: theme.spacing(1, 1, 1, 0),
-          // vertical padding + font size from searchIcon
-          paddingLeft: `calc(1em + ${theme.spacing(4)})`,
-          transition: theme.transitions.create('width'),
-          width: '100%',
-          [theme.breakpoints.up('sm')]: {
-            width: '12ch',
-            '&:focus': {
-              width: '20ch',
+            padding: theme.spacing(1, 1, 1, 0),
+            // vertical padding + font size from searchIcon
+            paddingLeft: `calc(1em + ${theme.spacing(4)})`,
+            transition: theme.transitions.create('width'),
+            width: '100%',
+            [theme.breakpoints.up('sm')]: {
+                width: '12ch',
+                '&:focus': {
+                    width: '20ch',
+                },
             },
-          },
         },
-      }));
+    }));
     //   const [searched, setSearched] = useState("");
-  
+
     //   const requestSearch = (searchedVal) => {
     //     const filteredRows = orden.filter((row) => {
     //       return row.name.toLowerCase().includes(e.target.value.toLowerCase());
@@ -188,7 +207,7 @@ export const TableProducts = () => {
     //       });
     //       setOrden(filteredRows);
     //   };
-    
+
     //   const cancelSearch = () => {
     //     setSearched("");
     //     requestSearch(searched);
@@ -204,12 +223,12 @@ export const TableProducts = () => {
             flexWrap: 'wrap',
             '& > :not(style)': {
                 m: 1,
-                width: 700,
-                minHeight: 400,
+                width: 600,
+                minHeight: 425,
             },
         }}>
             <Paper>
-            {/* <Search>
+                {/* <Search>
             <SearchIconWrapper>
               <SearchIcon />
             </SearchIconWrapper>
@@ -218,51 +237,64 @@ export const TableProducts = () => {
               inputProps={{ 'aria-label': 'search' }}
             />
           </Search> */}
-            <TableContainer component={Paper}>
-                <Table sx={{ Width: 100, align: 'center' }} aria-label="simple table">
-                    <TableHead>
-                        <TableRow>
-                            <TableCell> <QrCodeScannerIcon /> ID (Producto) </TableCell>
-                            <TableCell> <FastfoodIcon /> Nombre (Producto) </TableCell>
-                            <TableCell align="right"> <PaidIcon /> Precio ($)</TableCell>
-                            <TableCell align="right"><AddShoppingCartIcon /> Cantidad a ordenar</TableCell>
-                            <TableCell align="right"><AddCircleIcon />Agregar Producto</TableCell>
-                        </TableRow>
-                    </TableHead>
-                    <TableBody>
-                        {orden.map((row) => (
-                            <TableRow
-                                key={row.id}
-                                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                            >
-
-                                <TableCell component="th" scope="row">
-                                    {row.id}
-                                </TableCell>
-                                <TableCell align="left">{row.name}</TableCell>
-                                <TableCell align="right">{row.price} $</TableCell>
-                                <TableCell align="right">{row.quantity} </TableCell>
-                                <TableCell align="right"> <ButtonGroup>
-                                    <Button
-                                        aria-label="reduce"
-                                        onClick={() => decrementingProduct(row.id)}
-                                        disabled={row.quantity === 0}
-                                    >
-                                        <RemoveIcon fontSize="small" />
-                                    </Button>
-                                    <Button
-                                        aria-label="increase"
-                                        onClick={() => incrementingProduct(row.id)}
-                                    >
-                                        <AddIcon fontSize="small" />
-                                    </Button>
-                                </ButtonGroup>
-                                </TableCell>
+                <TableContainer component={Paper}>
+                    <Table sx={{ Width: 100, align: 'center' }} aria-label="simple table">
+                        <TableHead>
+                            <TableRow>
+                                <TableCell> <QrCodeScannerIcon /> ID (Producto) </TableCell>
+                                <TableCell> <FastfoodIcon /> Nombre (Producto) </TableCell>
+                                <TableCell align="right"> <PaidIcon /> Precio ($)</TableCell>
+                                <TableCell align="right"><AddShoppingCartIcon /> Cantidad a ordenar</TableCell>
+                                <TableCell align="right"><AddCircleIcon />Agregar Producto</TableCell>
                             </TableRow>
-                        ))}
-                    </TableBody>
-                </Table>
-            </TableContainer>
+                        </TableHead>
+                        <TableBody>
+                            {orden.
+                                slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+
+                                .map((row) => (
+                                    <TableRow
+                                        key={row.id}
+                                        sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                                    >
+
+                                        <TableCell component="th" scope="row">
+                                            {row.id}
+                                        </TableCell>
+                                        <TableCell align="left">{row.name}</TableCell>
+                                        <TableCell align="right">{row.price} $</TableCell>
+                                        <TableCell align="right">{row.quantity} </TableCell>
+                                        <TableCell align="right"> <ButtonGroup>
+                                            <Button
+                                                aria-label="reduce"
+                                                onClick={() => decrementingProduct(row.id)}
+                                                disabled={row.quantity === 0}
+                                            >
+                                                <RemoveIcon fontSize="small" />
+                                            </Button>
+                                            <Button
+                                                aria-label="increase"
+                                                onClick={() => incrementingProduct(row.id)}
+                                            >
+                                                <AddIcon fontSize="small" />
+                                            </Button>
+                                        </ButtonGroup>
+                                        </TableCell>
+                                    </TableRow>
+                                ))}
+                        </TableBody>
+                    </Table>
+                </TableContainer>
+                <TablePagination
+                    rowsPerPageOptions={[4, 8, 12, 16, 20, 24, 28]}
+                    component="div"
+                    count={orden.length}
+                    rowsPerPage={rowsPerPage}
+                    page={page}
+                    onPageChange={handleChangePage}
+                    onRowsPerPageChange={handleChangeRowsPerPage}
+                    labelRowsPerPage={"Productos por pagina"}
+                />
             </Paper>
             <Box
                 sx={{
@@ -307,8 +339,12 @@ export const TableProducts = () => {
                                 )
                             })
                         }
+                        <TextField sx={{marginRight:2, marginTop:5}} name='clientName' type="text" value={clientName} onChange={handleInputChangeND} id="outlined-basic" label="Cliente" variant="outlined" />
+
+                        <TextField sx={{marginLeft:2, marginTop:5}} name='description' type="text" value={description} onChange={handleInputChangeND} id="outlined-basic" label="Descripcion" variant="outlined" />
+
                         <h1>Total: $ {total}</h1>
-                        <Button onClick={handlerOrden} style={{ backgroundColor: "#fff", marginTop: 10 }} variant="contained"><AddShoppingCartIcon />Agregar Orden</Button>
+                        <Button disabled={!clientName || !description} onClick={handlerOrden} style={{ marginTop: 10 }} variant="contained"><AddShoppingCartIcon />Agregar Orden</Button>
                     </Paper>
 
                 }
