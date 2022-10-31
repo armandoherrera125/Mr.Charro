@@ -204,7 +204,7 @@ export const TableProducts = () => {
             flexWrap: 'wrap',
             '& > :not(style)': {
                 m: 1,
-                width: 900,
+                width: 700,
                 minHeight: 400,
             },
         }}>
