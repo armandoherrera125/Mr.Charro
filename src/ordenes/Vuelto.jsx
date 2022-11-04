@@ -9,7 +9,7 @@ export const Vuelto = ({total}) => {
     //const [vuelto, setVuelto] = useState(0);
     const {cancelaCon} = cancelaInput;
         const handleInputChange = ({ target }) => {
-          //console.log(target.value);
+          console.log(target.value);
           setCancelaCon({
               ...cancelaInput,
               [target.name]: target.value
@@ -21,7 +21,7 @@ export const Vuelto = ({total}) => {
                 <TextField name='cancelaCon' type="number" value={cancelaCon} onChange={handleInputChange} id="outlined-basic" label="Cancela con" variant="outlined" />
                 <h1>Vuelto:${
                         
-                         vuelto < 0 ? 0 : vuelto
+                         vuelto < 0 ? 0 : vuelto.toFixed(2)
                          
                     
                     }</h1>

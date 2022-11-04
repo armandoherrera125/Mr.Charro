@@ -11,6 +11,7 @@ import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
 import { TextField } from '@mui/material';
 import { Box } from '@mui/system';
+import Swal from 'sweetalert2';
 
 export const AlertDialog = ()=> {
   const [inputTask, setinputTask] = useState({
@@ -41,6 +42,11 @@ const {nombre, precio} = inputTask;
         precio: 0
     });
       setOpen(false);
+      Swal.fire(
+        'Buen trabajo!',
+        'Producto creado. Refrescar pagina para ver nuevo producto!',
+        'success'
+      )
     };
     const [open, setOpen] = useState(false);
 

@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react';
+import Swal from 'sweetalert2';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -140,8 +141,17 @@ export const TableProducts = () => {
         //console.log(...orderFilter);
         //  setlistOfOrders([...orderFilter]);
         //setOrden(rows);
+        Swal.fire(
+            'Buen trabajo!',
+            'Agregaste una nueva orden la comanda se imprimira!',
+            'success'
+          )
+          setinputnameAndDescription({
+            clientName: "",
+            description: ""
+        })
 
-        navigate('/ordenes')
+        //navigate('/ordenes')
     };
     //console.log(orderFilter);
     useEffect(() => {
