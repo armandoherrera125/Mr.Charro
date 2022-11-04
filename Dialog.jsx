@@ -19,15 +19,23 @@ export const AlertDialog = ()=> {
 });
 const {nombre, precio} = inputTask;
     const handleInputChange = ({ target }) => {
-      console.log(target.value);
       setinputTask({
           ...inputTask,
           [target.name]: target.value
       });
   }
-    const formAction = (e) => {
-      e.preventDefault();
-      console.log(nombre,precio);
+    const formAction = async (e) => {
+      //e.preventDefault();
+      const creatingProduct = await fetch('https://backend-charro-production.up.railway.app/api/products',{
+        method: 'POST',
+        body: JSON.stringify({
+          name: nombre,
+          price: precio
+        }),
+        headers: {
+          "Content-type": "application/json; charset=UTF-8"
+      }
+      });
       setinputTask({
         nombre: "",
         precio: 0
@@ -53,7 +61,7 @@ const {nombre, precio} = inputTask;
       {/* <Button onClick={handleClickOpen} startIcon={<AddIcon />}>
         Agregar
       </Button> */}
-      <form onSubmit={formAction}>
+      <form onSubmit={formAction} method="POST">
       <Dialog
         open={open}
         onClose={handleClose}
@@ -88,7 +96,7 @@ const {nombre, precio} = inputTask;
 
         <DialogActions>
           <Button variant='outlined' color='error' onClick={handleClose}>Cancelar</Button>
-          <Button  type='submit' variant='outlined' onClick={formAction} autoFocus>
+          <Button disabled={!nombre || !precio} type="submit" variant='outlined' autoFocus onClick={formAction}>
             Agregar
           </Button>
         </DialogActions>

@@ -37,7 +37,7 @@ export const TableProducts = () => {
     });
     const { clientName, description } = nameAndDescription;
     const handleInputChangeND = ({ target }) => {
-        console.log(target.value);
+        //console.log(target.value);
         setinputnameAndDescription({
             ...nameAndDescription,
             [target.name]: target.value

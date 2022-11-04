@@ -9,7 +9,7 @@ export const Vuelto = ({total}) => {
     //const [vuelto, setVuelto] = useState(0);
     const {cancelaCon} = cancelaInput;
         const handleInputChange = ({ target }) => {
-          console.log(target.value);
+          //console.log(target.value);
           setCancelaCon({
               ...cancelaInput,
               [target.name]: target.value
