@@ -8,6 +8,8 @@ import { Button, Divider } from '@mui/material';
 import { deleteOrder } from '../slices/ordenesactivas';
 import { Vuelto } from './Vuelto';
 import Swal from 'sweetalert2';
+import { Scrollbars } from 'react-custom-scrollbars';
+
 
 export const Orden = () => {
   const dispatch = useDispatch();
@@ -22,8 +24,8 @@ export const Orden = () => {
   };
   return (
     <>
-      <h1> Ordenes Activas</h1>
-
+      <h2> Ordenes Activas</h2>
+      
       <div>
         {
           ordenes?.map((ordenesList, index) => {
@@ -32,6 +34,7 @@ export const Orden = () => {
             let clientName = valorInicial[valorInicial.length - 3];
             let desc = valorInicial[valorInicial.length - 2];
             return (
+              
               <Box
               key={index}
               sx={{
@@ -43,33 +46,33 @@ export const Orden = () => {
                   flexWrap: 'wrap',
                   '& > :not(style)': {
                       m: 1,
-                      width: 500,
-                      minHeight: 500,
+                      maxWidth: 400,
+                      maxHeight: 400,
                   },
               }}
           >
+            <Scrollbars autoHide style={{ width: 400, height: 400 }}>
             <Paper elevation={3}>
                 {
                   ordenesList.filter((values, idx) => idx < ordenesList.length - 3).map((values, index) => {
                     return (
                       <div key={index}>
-                      <h1 >{values.quantity} orden de {values.name} Precio: {values.price * values.quantity}$</h1>
+                      <h2 >{values.quantity} orden de {values.name} Precio: {values.price * values.quantity}$</h2>
                       <Divider />
                   </div>
                     )
                   })
 
                 }
-                <h1>Cliente: {clientName}</h1>
-                <h1>Descripcion: {desc}</h1>
-                 <h1>Total: ${valorTotal}</h1>
+                <h2>Cliente: {clientName}</h2>
+                <h2>Descripcion: {desc}</h2>
+                 <h2>Total: ${valorTotal}</h2>
                  <Vuelto total={valorTotal}/>
                   <Button onClick={()=>handlerDeleteOrder(index)} style={{ backgroundColor: "#fff"}} variant="contained"><PrintIcon />Imprimir Ticket</Button>
 
                 </Paper>
-              </Box>
-
-
+                </Scrollbars>
+              </Box> 
             )
           })
         }
