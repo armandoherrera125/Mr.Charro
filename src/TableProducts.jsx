@@ -26,12 +26,13 @@ import { OrderDetail } from './OrderDetail';
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 import { Navigate, useNavigate } from 'react-router-dom';
 import { Counter } from './counter/Counter';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import Divider from '@mui/material/Divider';
 
 import { addOrder } from './slices/ordenesactivas';
 import { Search } from '@mui/icons-material';
 export const TableProducts = () => {
+    const requestAgain = useSelector((state) => state.requestAgain);
     const [nameAndDescription, setinputnameAndDescription] = useState({
         clientName: "",
         description: ""
@@ -68,7 +69,7 @@ export const TableProducts = () => {
         };
         getProducts();
 
-    }, [counter])
+    }, [counter,requestAgain])
     //console.log(valores);
 
 

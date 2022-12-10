@@ -12,8 +12,12 @@ import Tooltip from '@mui/material/Tooltip';
 import { TextField } from '@mui/material';
 import { Box } from '@mui/system';
 import Swal from 'sweetalert2';
+import { useDispatch } from 'react-redux';
+import { addProduct } from './src/slices/dispatcherRequest';
 
 export const AlertDialog = ()=> {
+  const dispatch = useDispatch();
+
   const [inputTask, setinputTask] = useState({
     nombre: "",
     precio: 0
@@ -31,7 +35,7 @@ const {nombre, precio} = inputTask;
         method: 'POST',
         body: JSON.stringify({
           name: nombre,
-          price: precio
+          price: precio 
         }),
         headers: {
           "Content-type": "application/json; charset=UTF-8"
@@ -41,10 +45,11 @@ const {nombre, precio} = inputTask;
         nombre: "",
         precio: 0
     });
+      dispatch(addProduct());
       setOpen(false);
       Swal.fire(
         'Buen trabajo!',
-        'Producto creado. Refrescar pagina para ver nuevo producto!',
+        'Producto creado. Agregado a la lista!',
         'success'
       )
     };
