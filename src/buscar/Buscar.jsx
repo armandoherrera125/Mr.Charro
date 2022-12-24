@@ -1,13 +1,3 @@
-// import React from 'react'
-
-// export const Buscar = () => {
-
-//   return (
-//     <div>
-//       Hola
-//     </div>
-//   )
-// }
 import * as React from 'react';
 import dayjs from 'dayjs';
 import Stack from '@mui/material/Stack';
@@ -21,70 +11,113 @@ import { MobileDatePicker } from '@mui/x-date-pickers/MobileDatePicker';
 import { Box, Button, Paper } from '@mui/material';
 import LibraryBooksIcon from '@mui/icons-material/LibraryBooks';
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
+import { useState } from 'react';
+import { SearchTable } from './SearchTable';
 
 
 export const Buscar = () => {
-  const [desde, setDesde] = React.useState(dayjs('2014-08-18T21:11:54'));
+  const [desde, setDesde] = React.useState(dayjs(new Date()).format('YYYY-MM-DD'));
 
-  const [hasta, setHasta] = React.useState(dayjs('2014-08-18T21:11:54'));
+  const [hasta, setHasta] = React.useState(dayjs(new Date()).format('YYYY-MM-DD'));
 
+  const [listOfOrdersByDay, setlistOfOrdersByDay] = useState([]);
   const handleChangeDesde = (newValue) => {
-    setDesde(newValue);
-  };  
+    setDesde(dayjs(newValue).format('YYYY-MM-DD'));
+  };
   const handleChangeHasta = (newValue) => {
-    setHasta(newValue);
-  };  
-
+    setHasta(dayjs(newValue).format('YYYY-MM-DD'));
+  };
+  const handlerSearchOrders = async () => {
+    const searchingOrders = await fetch(`http://localhost:8000/api/orders?startDate=${desde}&endDate=${hasta}`);
+    const ordersFound = await searchingOrders.json();
+    setlistOfOrdersByDay(ordersFound);
+  };
+  let props = {
+    listOfOrdersByDay,
+    desde,
+    hasta
+  };
   return (
+    <>
+      <Box sx={{
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        alignContent: 'space-between',
+        justifyContent: 'center',
+        textAlign: 'center',
+        '& > :not(style)': {
+          m: 1,
+          width: 700,
+          minHeight: 200,
+        },
+      }}>
+        <Paper elevation={3} >
+          <h2>Buscar por ordenes:</h2>
+          <h2>Mes / Dia / Año</h2>
+          <LocalizationProvider dateAdapter={AdapterDayjs}>
+            <DesktopDatePicker
+              sx={{
+              }}
+              label="Desde"
+              inputFormat="MM/DD/YYYY"
+              value={desde}
+              onChange={handleChangeDesde}
+              renderInput={(params) => <TextField {...params}
+                sx={{
+                  svg: { color: '#fff' },
+                  input: { color: '#fff' },
+                }}
+              />}
+            />
+            <DesktopDatePicker
+              label="Hasta"
+              inputFormat="MM/DD/YYYY"
+              value={hasta}
+              onChange={handleChangeHasta}
+              renderInput={(params) => <TextField {...params}
+                sx={{
+                  svg: { color: '#fff' },
+                  input: { color: '#fff' },
+                }}
+              />}
+            />
+          </LocalizationProvider>
+          <Button style={{ backgroundColor: "#fff", marginTop: 25 }} variant="contained"><LibraryBooksIcon />Buscar orden</Button>
+          
+          {/* onClick={handlerSearchOrders} */}
+          {/* {listOfOrdersByDay.length>0 ? 
+          <div>
+            {
+              listOfOrdersByDay.map( values => <h1 key={values.id}>{values.description}</h1>)
+            }
+          </div>
+          
+        : '' } */}
+        </Paper>
+      </Box>
 
-    <Box sx={{
-      display: 'flex',
-      flexDirection: 'column',
-      alignItems: 'center',
-      alignContent: 'space-between',
-      justifyContent: 'center',
-      gap: 10,
-      margin: 15,
-      textAlign: 'center',
-      '& > :not(style)': {
-        m: 1,
-        width: 700,
-        minHeight: 425,
-      },
-    }}>
-      <Paper elevation={3} >
-        <h1>Buscar por ordenes</h1>
-        <LocalizationProvider dateAdapter={AdapterDayjs}>
-          <DesktopDatePicker
+      {listOfOrdersByDay.length > 0 ?
+        <Box
           sx={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            textAlign: 'center',
+            align: 'center',
+            flexWrap: 'wrap',
+            '& > :not(style)': {
+              m: 1,
+              maxWidth: 900,
+              maxHeight: 100,
+            },
           }}
-            label="Desde"
-            inputFormat="MM/DD/YYYY"
-            value={desde}
-            onChange={handleChangeDesde}
-            renderInput={(params) => <TextField {...params}
-              sx={{
-                svg: { color: '#fff' },
-                input: { color: '#fff' },
-              }}
-            />}
-          />
-                    <DesktopDatePicker
-            label="Hasta"
-            inputFormat="MM/DD/YYYY"
-            value={hasta}
-            onChange={handleChangeHasta}
-            renderInput={(params) => <TextField {...params}
-              sx={{
-                svg: { color: '#fff' },
-                input: { color: '#fff' },
-              }}
-            />}
-          />
-        </LocalizationProvider>
-        <Button style={{backgroundColor: "#fff",marginTop:25}} variant="contained"><LibraryBooksIcon/>Buscar orden</Button>
-
-      </Paper>
-    </Box>
+        >
+          <Paper elevation={3}>
+            <SearchTable {...props} />
+          </Paper>
+        </Box>
+        : ''}
+    </>
   );
 }

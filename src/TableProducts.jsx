@@ -61,6 +61,8 @@ export const TableProducts = () => {
     const [counter, setCounter] = useState(0);
     useEffect(() => {
         const getProducts = async () => {
+            
+            //const productos = await fetch('http://localhost:8000/api/products');
             const productos = await fetch('https://backend-charro-production.up.railway.app/api/products');
             const listOfProducts = await productos.json();
             //console.log(listOfProducts);
@@ -69,7 +71,7 @@ export const TableProducts = () => {
         };
         getProducts();
 
-    }, [counter,requestAgain])
+    }, [counter, requestAgain])
     //console.log(valores);
 
 
@@ -130,7 +132,7 @@ export const TableProducts = () => {
     };
     const orderFilter = orden.filter((values) => values.quantity > 0);
     const handlerOrden = () => {
-        dispatch(addOrder([...orderFilter,clientName,description, total]));
+        dispatch(addOrder([...orderFilter, clientName, description, total]));
         setCounter(counter + 1);
         // orden.forEach( (values)=> {
         //     if (values.quantity !==0) {
@@ -146,8 +148,8 @@ export const TableProducts = () => {
             'Buen trabajo!',
             'Agregaste una nueva orden la comanda se imprimira!',
             'success'
-          )
-          setinputnameAndDescription({
+        )
+        setinputnameAndDescription({
             clientName: "",
             description: ""
         })
@@ -350,9 +352,9 @@ export const TableProducts = () => {
                                 )
                             })
                         }
-                        <TextField sx={{marginRight:2, marginTop:5}} name='clientName' type="text" value={clientName} onChange={handleInputChangeND} id="outlined-basic" label="Cliente" variant="outlined" />
+                        <TextField sx={{ marginRight: 2, marginTop: 5 }} name='clientName' type="text" value={clientName} onChange={handleInputChangeND} id="outlined-basic" label="Cliente" variant="outlined" />
 
-                        <TextField sx={{marginLeft:2, marginTop:5}} name='description' type="text" value={description} onChange={handleInputChangeND} id="outlined-basic" label="Descripcion" variant="outlined" />
+                        <TextField sx={{ marginLeft: 2, marginTop: 5 }} name='description' type="text" value={description} onChange={handleInputChangeND} id="outlined-basic" label="Descripcion" variant="outlined" />
 
                         <h1>Total: $ {total}</h1>
                         <Button disabled={!clientName || !description} onClick={handlerOrden} style={{ marginTop: 10 }} variant="contained"><AddShoppingCartIcon />Agregar Orden</Button>

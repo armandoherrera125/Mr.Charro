@@ -14,7 +14,26 @@ import { Scrollbars } from 'react-custom-scrollbars';
 export const Orden = () => {
   const dispatch = useDispatch();
   const ordenes = useSelector((state) => state.ordenes  );
-  const handlerDeleteOrder = (index) => {
+  //console.log(ordenes);
+  const handlerDeleteOrder = async(index) => {
+    //TODO Aqui va la logica para guardar las ordenes en la BD
+    const orderWithoutFormat = ordenes.filter((values, idx)=>idx == index);
+    let newOrder = [];
+    const arrayDuringProcess = orderWithoutFormat.map((values, idx) =>{
+      newOrder = values.slice(0,values.length-3);
+    });
+    console.log(newOrder);
+    console.log(JSON.stringify(newOrder));
+    //TODO Ya se hace request a la BD en newOrder esta el value
+    const creatingOrder = await fetch('http://localhost:8000/api/orders',{
+      method: 'POST',
+      body: JSON.stringify({
+        description: newOrder
+      }),
+      headers: {
+        "Content-type": "application/json; charset=UTF-8"
+    }
+    });
     dispatch(deleteOrder(index));
     Swal.fire(
       'Buen trabajo!',
@@ -29,6 +48,7 @@ export const Orden = () => {
       <div>
         {
           ordenes?.map((ordenesList, index) => {
+            console.log(ordenesList);
             let valorInicial = ordenes[index];
             let valorTotal = valorInicial[valorInicial.length - 1];
             let clientName = valorInicial[valorInicial.length - 3];
@@ -54,6 +74,7 @@ export const Orden = () => {
             <Scrollbars autoHide style={{ width: 400, height: 400 }}>
             <Paper elevation={3}>
                 {
+                  
                   ordenesList.filter((values, idx) => idx < ordenesList.length - 3).map((values, index) => {
                     return (
                       <div key={index}>
