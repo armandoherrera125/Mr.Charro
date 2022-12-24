@@ -8,17 +8,20 @@ import { TimePicker } from '@mui/x-date-pickers/TimePicker';
 import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
 import { MobileDatePicker } from '@mui/x-date-pickers/MobileDatePicker';
-import { Box, Button, Paper } from '@mui/material';
+import { Box, Button, LinearProgress, Paper } from '@mui/material';
 import LibraryBooksIcon from '@mui/icons-material/LibraryBooks';
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 import { useState } from 'react';
 import { SearchTable } from './SearchTable';
+import CircularProgress from '@mui/material/CircularProgress';
+
 
 
 export const Buscar = () => {
   const [desde, setDesde] = React.useState(dayjs(new Date()).format('YYYY-MM-DD'));
 
   const [hasta, setHasta] = React.useState(dayjs(new Date()).format('YYYY-MM-DD'));
+  const [isLoading, setLoading] = React.useState(false);
 
   const [listOfOrdersByDay, setlistOfOrdersByDay] = useState([]);
   const handleChangeDesde = (newValue) => {
@@ -28,9 +31,11 @@ export const Buscar = () => {
     setHasta(dayjs(newValue).format('YYYY-MM-DD'));
   };
   const handlerSearchOrders = async () => {
+    setLoading(true);
     const searchingOrders = await fetch(`https://backend-charro-production.up.railway.app/api/orders?startDate=${desde}&endDate=${hasta}`);
     const ordersFound = await searchingOrders.json();
     setlistOfOrdersByDay(ordersFound);
+    setLoading(false);
   };
   let props = {
     listOfOrdersByDay,
@@ -83,7 +88,7 @@ export const Buscar = () => {
               />}
             />
           </LocalizationProvider>
-          <Button onClick={handlerSearchOrders} style={{ backgroundColor: "#fff", marginTop: 25 }} variant="contained"><LibraryBooksIcon />Buscar orden</Button>
+          <Button disabled={isLoading} onClick={handlerSearchOrders} style={{ backgroundColor: "#fff", marginTop: 25 }} variant="contained"><LibraryBooksIcon />Buscar orden</Button>
           
           {/* onClick={handlerSearchOrders} */}
           {/* {listOfOrdersByDay.length>0 ? 
@@ -97,7 +102,13 @@ export const Buscar = () => {
         </Paper>
       </Box>
 
-      {listOfOrdersByDay.length > 0 ?
+        {
+          isLoading ?     <Box sx={{ width: '100%' }}>
+           <h2> Cargando...</h2>
+          <LinearProgress color='primary'/>
+        </Box>
+          : 
+      listOfOrdersByDay.length > 0 ?
         <Box
           sx={{
             display: 'flex',
@@ -117,7 +128,9 @@ export const Buscar = () => {
             <SearchTable {...props} />
           </Paper>
         </Box>
-        : ''}
+        : 
+          ''
+        }
     </>
   );
 }
