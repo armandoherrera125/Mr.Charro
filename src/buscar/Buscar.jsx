@@ -28,7 +28,7 @@ export const Buscar = () => {
     setHasta(dayjs(newValue).format('YYYY-MM-DD'));
   };
   const handlerSearchOrders = async () => {
-    const searchingOrders = await fetch(`http://localhost:8000/api/orders?startDate=${desde}&endDate=${hasta}`);
+    const searchingOrders = await fetch(`https://backend-charro-production.up.railway.app/api/orders?startDate=${desde}&endDate=${hasta}`);
     const ordersFound = await searchingOrders.json();
     setlistOfOrdersByDay(ordersFound);
   };
@@ -83,7 +83,7 @@ export const Buscar = () => {
               />}
             />
           </LocalizationProvider>
-          <Button style={{ backgroundColor: "#fff", marginTop: 25 }} variant="contained"><LibraryBooksIcon />Buscar orden</Button>
+          <Button onClick={handlerSearchOrders} style={{ backgroundColor: "#fff", marginTop: 25 }} variant="contained"><LibraryBooksIcon />Buscar orden</Button>
           
           {/* onClick={handlerSearchOrders} */}
           {/* {listOfOrdersByDay.length>0 ? 

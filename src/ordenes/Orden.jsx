@@ -25,7 +25,7 @@ export const Orden = () => {
     console.log(newOrder);
     console.log(JSON.stringify(newOrder));
     //TODO Ya se hace request a la BD en newOrder esta el value
-    const creatingOrder = await fetch('http://localhost:8000/api/orders',{
+    const creatingOrder = await fetch('https://backend-charro-production.up.railway.app/api/orders',{
       method: 'POST',
       body: JSON.stringify({
         description: newOrder
