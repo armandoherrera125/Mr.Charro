@@ -129,7 +129,7 @@ export const Buscar = () => {
           </Paper>
         </Box>
         : 
-          ''
+          <h2>No hay ordenes en la fecha introducida</h2>
         }
     </>
   );
