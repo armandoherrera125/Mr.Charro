@@ -53,7 +53,7 @@ export const Buscar = () => {
         textAlign: 'center',
         '& > :not(style)': {
           m: 1,
-          width: 700,
+          width: 600,
           minHeight: 200,
         },
       }}>
