@@ -15,14 +15,13 @@ import Swal from 'sweetalert2';
 import { useDispatch } from 'react-redux';
 import { addProduct } from './src/slices/dispatcherRequest';
 
-export const AlertDialog = ()=> {
-  const dispatch = useDispatch();
+export const Caja = ()=> {
+  //const dispatch = useDispatch();
 
   const [inputTask, setinputTask] = useState({
-    nombre: "",
-    precio: 0
+    caja: "0",
 });
-const {nombre, precio} = inputTask;
+const {caja} = inputTask;
     const handleInputChange = ({ target }) => {
       setinputTask({
           ...inputTask,
@@ -31,25 +30,23 @@ const {nombre, precio} = inputTask;
   }
     const formAction = async (e) => {
       //e.preventDefault();
-      const creatingProduct = await fetch('https://backend-charro-production.up.railway.app/api/products',{
+      const creatingCaja = await fetch('https://backend-charro-production.up.railway.app/api/box',{
         method: 'POST',
         body: JSON.stringify({
-          name: nombre,
-          price: precio 
+            caja
         }),
         headers: {
           "Content-type": "application/json; charset=UTF-8"
       }
       });
       setinputTask({
-        nombre: "",
-        precio: 0
+        caja: "",
     });
-      dispatch(addProduct());
+      //dispatch(addProduct());
       setOpen(false);
       Swal.fire(
-        'Buen trabajo!',
-        'Producto creado. Agregado a la lista!',
+        'Buen trabajo.!',
+        'Caja creada.!',
         'success'
       )
     };
@@ -64,9 +61,9 @@ const {nombre, precio} = inputTask;
      };
   return (
     <div>
-      <Tooltip title="Agregar Producto">
+      <Tooltip title="Agregar Caja">
   <IconButton onClick={handleClickOpen}>
-    Producto<AddIcon />
+    Caja<AddIcon />
   </IconButton>
 </Tooltip>
       {/* <Button onClick={handleClickOpen} startIcon={<AddIcon />}>
@@ -81,7 +78,7 @@ const {nombre, precio} = inputTask;
 
       >
         <DialogTitle id="alert-dialog-title">
-          {"Agregando un nuevo producto"}
+          {`Agregando la caja del dia ${new Date().getDate()}/${new Date().getMonth()}/${new Date().getFullYear()}`}
         </DialogTitle>
         <Box sx={{
       display: 'flex',
@@ -93,21 +90,20 @@ const {nombre, precio} = inputTask;
             flexWrap: 'wrap',
             '& > :not(style)': {
                 m: 1,
-                width: 200,
+                width: 350,
                 minHeight: 70,
             },
 
 
     }}>
 
-        <TextField name='nombre' value={nombre} onChange={handleInputChange} id="outlined-basic" label="Nombre" variant="outlined" />
-        <TextField name='precio' type="number" value={precio} onChange={handleInputChange} id="outlined-basic" label="Precio" variant="outlined" />
+        <TextField name='caja' type="number" value={caja} onChange={handleInputChange} id="outlined-basic" label="Caja" variant="outlined" />
 
         </Box>
 
         <DialogActions>
           <Button variant='outlined' color='error' onClick={handleClose}>Cancelar</Button>
-          <Button disabled={!nombre || !precio} type="submit" variant='outlined' autoFocus onClick={formAction}>
+          <Button disabled={!caja} type="submit" variant='outlined' autoFocus onClick={formAction}>
             Agregar
           </Button>
         </DialogActions>

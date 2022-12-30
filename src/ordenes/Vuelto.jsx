@@ -14,8 +14,10 @@ export const Vuelto = ({total}) => {
               ...cancelaInput,
               [target.name]: target.value
           });
+          
       }
       let vuelto = cancelaCon - total;
+
   return (
     <Box sx={{}}>
                 <TextField name='cancelaCon' type="number" value={cancelaCon} onChange={handleInputChange} id="outlined-basic" label="Cancela con" variant="outlined" />

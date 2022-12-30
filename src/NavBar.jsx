@@ -22,6 +22,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 import Slide from '@mui/material/Slide';
 import AdbIcon from '@mui/icons-material/Adb';
 import { AlertDialog } from '../Dialog';
+import { Caja } from '../Caja';
 const pages = ['ORDENES ACTIVAS', 'BUSCAR ORDEN'];
 
 export const NavBar = () => {
@@ -201,35 +202,15 @@ export const NavBar = () => {
                 </MenuItem>
               </Button>
             </Box>
-            <Box sx={{ flexGrow: 0 }}>
+            <Box sx={{ flexGrow: 0,
+              marginRight: 10
+             }}>
               <AlertDialog />
-            {/* <div>
-      <Button variant="outlined" onClick={handleClickOpen}>
-        Open alert dialog
-      </Button>
-      <Dialog
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
-      >
-        <DialogTitle id="alert-dialog-title">
-          {"Use Google's location service?"}
-        </DialogTitle>
-        <DialogContent>
-          <DialogContentText id="alert-dialog-description">
-            Let Google help apps determine location. This means sending anonymous
-            location data to Google, even when no apps are running.
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleClose}>Disagree</Button>
-          <Button onClick={handleClose} autoFocus>
-            Agree
-          </Button>
-        </DialogActions>
-      </Dialog>
-    </div> */}
+              
+            </Box>
+            <Box sx={{ flexGrow: 0,
+            marginLeft:10 }}>
+              <Caja />
             </Box>
           </Toolbar>
         </Container>

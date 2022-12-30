@@ -24,6 +24,8 @@ export const Buscar = () => {
   const [isLoading, setLoading] = React.useState(false);
 
   const [listOfOrdersByDay, setlistOfOrdersByDay] = useState([]);
+  const [caja, setCaja] = useState(0);
+
   const handleChangeDesde = (newValue) => {
     setDesde(dayjs(newValue).format('YYYY-MM-DD'));
   };
@@ -33,14 +35,19 @@ export const Buscar = () => {
   const handlerSearchOrders = async () => {
     setLoading(true);
     const searchingOrders = await fetch(`https://backend-charro-production.up.railway.app/api/orders?startDate=${desde}&endDate=${hasta}`);
+    //const searchingOrders = await fetch(`http://localhost:8000/api/orders?startDate=${desde}&endDate=${hasta}`);
     const ordersFound = await searchingOrders.json();
-    setlistOfOrdersByDay(ordersFound);
+    console.log(ordersFound);
+    const {onlyDescription,caja} = ordersFound;
+    setlistOfOrdersByDay(onlyDescription);
+    setCaja(Number(caja));
     setLoading(false);
   };
   let props = {
     listOfOrdersByDay,
     desde,
-    hasta
+    hasta,
+    caja
   };
   return (
     <>

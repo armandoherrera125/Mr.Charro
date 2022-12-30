@@ -28,7 +28,6 @@ import { Navigate, useNavigate } from 'react-router-dom';
 import { Counter } from './counter/Counter';
 import { useDispatch, useSelector } from 'react-redux';
 import Divider from '@mui/material/Divider';
-
 import { addOrder } from './slices/ordenesactivas';
 import { Search } from '@mui/icons-material';
 export const TableProducts = () => {
@@ -134,16 +133,27 @@ export const TableProducts = () => {
     const handlerOrden = () => {
         dispatch(addOrder([...orderFilter, clientName, description, total]));
         setCounter(counter + 1);
-        // orden.forEach( (values)=> {
-        //     if (values.quantity !==0) {
-        //         values.quantity = 0;
-        //         setOrden([...orden]);
-        //     }
-        // })
-        // console.log(orden);
-        //console.log(...orderFilter);
-        //  setlistOfOrders([...orderFilter]);
-        //setOrden(rows);
+        var data=document.getElementById('comanda').innerHTML;
+
+        var ventana = window.open('', 'PRINT', 'height=400,width=600');
+        ventana.document.write('<html><head><title style="text-align:center;align-content:center;">Comanda</title>');
+        ventana.document.write('</head><body >');
+        ventana.document.write('<div style="text-align: center;align-content: center;">');
+        ventana.document.write('<h1>Comanda:</h1>');
+        ventana.document.write('<img style="width: 155px;max-width: 155px;" src="https://yt3.ggpht.com/-3BKTe8YFlbA/AAAAAAAAAAI/AAAAAAAAAAA/ad0jqQ4IkGE/s900-c-k-no-mo-rj-c0xffffff/photo.jpg" alt="Logotipo"/>'); 
+        ventana.document.write('<h1>Orden:</h1>');
+        ventana.document.write(data);
+        ventana.document.write(`<h1>Cliente: ${clientName}</h1>`);
+        ventana.document.write(`<h1>Descripcion: ${description}</h1>`);
+        ventana.document.write('<p style="text-align: center;align-content: center;">¡GRACIAS POR SU COMPRA!</p>');
+        ventana.document.write('</div>');
+        ventana.document.write('</body></html>');
+        ventana.document.close();
+        ventana.focus();
+        ventana.onload = function() {
+          ventana.print();
+          ventana.close();
+        };
         Swal.fire(
             'Buen trabajo!',
             'Agregaste una nueva orden la comanda se imprimira!',
@@ -153,10 +163,8 @@ export const TableProducts = () => {
             clientName: "",
             description: ""
         })
-
-        //navigate('/ordenes')
+        return true;
     };
-    //console.log(orderFilter);
     useEffect(() => {
         let totalHere = 0;
         orden.forEach((values) => {
@@ -342,6 +350,7 @@ export const TableProducts = () => {
                             Total:
                         </Typography> */}
                         <Divider />
+                        <div id='comanda'>
                         {
                             orderFilter.map((values) => {
                                 return (
@@ -352,10 +361,11 @@ export const TableProducts = () => {
                                 )
                             })
                         }
+                        </div>
                         <TextField sx={{ marginRight: 2, marginTop: 5 }} name='clientName' type="text" value={clientName} onChange={handleInputChangeND} id="outlined-basic" label="Cliente" variant="outlined" />
 
                         <TextField sx={{ marginLeft: 2, marginTop: 5 }} name='description' type="text" value={description} onChange={handleInputChangeND} id="outlined-basic" label="Descripcion" variant="outlined" />
-
+                        
                         <h1>Total: $ {total}</h1>
                         <Button disabled={!clientName || !description} onClick={handlerOrden} style={{ marginTop: 10 }} variant="contained"><AddShoppingCartIcon />Agregar Orden</Button>
                     </Paper>
@@ -363,6 +373,7 @@ export const TableProducts = () => {
                 }
 
             </Box>
+            
         </Box>
     )
 }

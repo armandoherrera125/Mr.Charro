@@ -11,6 +11,7 @@ import { Box } from '@mui/system';
 const TAX_RATE = 0.07;
 
 function ccyFormat(num) {
+  console.log(num);
     return `${num.toFixed(2)}`;
 }
 
@@ -41,9 +42,9 @@ const invoiceTotal = invoiceTaxes + invoiceSubtotal;
 
 
 
-export const SearchTable = ({ listOfOrdersByDay,desde,hasta }) => {
-    //console.log(listOfOrdersByDay);
-    
+export const SearchTable = ({ listOfOrdersByDay,desde,hasta,caja }) => {
+    console.log(listOfOrdersByDay);
+    console.log(typeof caja);
     let finalArray = [];
     const filteringOrders = listOfOrdersByDay.map( (valores)=> {
         valores.map((orders)=> finalArray.push(orders));
@@ -89,8 +90,8 @@ export const SearchTable = ({ listOfOrdersByDay,desde,hasta }) => {
 
           <TableRow>
             <TableCell rowSpan={3} />
-            <TableCell colSpan={2}>Subtotal</TableCell>
-            <TableCell align="right">{finalValue} $</TableCell>
+            <TableCell colSpan={2}>Total de ordenes</TableCell>
+            <TableCell align="right">{ccyFormat(finalValue)} $</TableCell>
           </TableRow>
           <TableRow>
             <TableCell>IVA</TableCell>
@@ -98,8 +99,8 @@ export const SearchTable = ({ listOfOrdersByDay,desde,hasta }) => {
             <TableCell align="right">0 $</TableCell>
           </TableRow>
           <TableRow>
-            <TableCell colSpan={2}>Total</TableCell>
-            <TableCell align="right">{finalValue} $</TableCell>
+            <TableCell colSpan={2}>{`Total ordenes: $${finalValue} + Caja: $${caja}`}</TableCell>
+            <TableCell align="right">{ccyFormat(finalValue+caja)} $</TableCell>
           </TableRow>
         </TableBody>
       </Table>
