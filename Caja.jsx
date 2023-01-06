@@ -78,7 +78,7 @@ const {caja} = inputTask;
 
       >
         <DialogTitle id="alert-dialog-title">
-          {`Agregando la caja del dia ${new Date().getDate()}/${new Date().getMonth()}/${new Date().getFullYear()}`}
+          {`Agregando la caja del dia ${new Date().getDate()}/${new Date().getMonth()+1}/${new Date().getFullYear()}`}
         </DialogTitle>
         <Box sx={{
       display: 'flex',
