@@ -38,7 +38,7 @@ export const Orden = () => {
     ventana.document.write('</head><body >');
     ventana.document.write('<div style="text-align: center;align-content: center;">');
     ventana.document.write('<h1>Mr.Charro</h1>');
-    ventana.document.write('<img style="width: 155px;max-width: 155px;" src="././public/imagenmrcharro.jpeg" alt="Logotipo"/>'); 
+    ventana.document.write('<img style="width: 155px;max-width: 155px;" src="/imagenmrcharro.jpeg" alt="Logotipo"/>'); 
     //ventana.document.write('<img style="width: 155px;max-width: 155px;" src="https://yt3.ggpht.com/-3BKTe8YFlbA/AAAAAAAAAAI/AAAAAAAAAAA/ad0jqQ4IkGE/s900-c-k-no-mo-rj-c0xffffff/photo.jpg" alt="Logotipo"/>'); 
     ventana.document.write('<h1>Col.Paraiso calle principal pasaje numero 8:</h1>');
     ventana.document.write('<h1>Orden:</h1>');
