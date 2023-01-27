@@ -99,7 +99,7 @@ export const SearchTable = ({ listOfOrdersByDay,desde,hasta,caja }) => {
             <TableCell align="right">0 $</TableCell>
           </TableRow>
           <TableRow>
-            <TableCell colSpan={2}>{`Total ordenes: $${finalValue} + Caja: $${caja}`}</TableCell>
+            <TableCell colSpan={2}>{`Total ordenes: $${ccyFormat(finalValue)} + Caja: $${caja}`}</TableCell>
             <TableCell align="right">{ccyFormat(finalValue+caja)} $</TableCell>
           </TableRow>
         </TableBody>
