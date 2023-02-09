@@ -42,7 +42,7 @@ const invoiceTotal = invoiceTaxes + invoiceSubtotal;
 
 
 
-export const SearchTable = ({ listOfOrdersByDay,desde,hasta,caja }) => {
+export const SearchTable = ({ listOfOrdersByDay,desde,hasta,caja,cantidadOrdenes }) => {
     console.log(listOfOrdersByDay);
     console.log(typeof caja);
     let finalArray = [];
@@ -62,6 +62,8 @@ export const SearchTable = ({ listOfOrdersByDay,desde,hasta,caja }) => {
     const finalValue = totalSum();
     console.log(finalValue);
     return (
+      <>
+        <h1>Total de ordenes encontradas: {cantidadOrdenes}</h1>
         <TableContainer component={Paper}>
             <Table sx={{ minWidth: 700 }} aria-label="spanning table">
                 <TableHead>
@@ -105,5 +107,6 @@ export const SearchTable = ({ listOfOrdersByDay,desde,hasta,caja }) => {
         </TableBody>
       </Table>
     </TableContainer>
+    </>
   );
 }

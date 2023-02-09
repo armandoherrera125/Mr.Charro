@@ -25,6 +25,8 @@ export const Buscar = () => {
 
   const [listOfOrdersByDay, setlistOfOrdersByDay] = useState([]);
   const [caja, setCaja] = useState(0);
+  const [cantidadOrdenes, setcantidadOrdenes] = useState(0);
+
 
   const handleChangeDesde = (newValue) => {
     setDesde(dayjs(newValue).format('YYYY-MM-DD'));
@@ -38,16 +40,18 @@ export const Buscar = () => {
     //const searchingOrders = await fetch(`http://localhost:8000/api/orders?startDate=${desde}&endDate=${hasta}`);
     const ordersFound = await searchingOrders.json();
     console.log(ordersFound);
-    const {onlyDescription,caja} = ordersFound;
+    const {onlyDescription,caja,amountOfOrders} = ordersFound;
     setlistOfOrdersByDay(onlyDescription);
     setCaja(Number(caja));
+    setcantidadOrdenes(Number(amountOfOrders));
     setLoading(false);
   };
   let props = {
     listOfOrdersByDay,
     desde,
     hasta,
-    caja
+    caja,
+    cantidadOrdenes
   };
   return (
     <>
