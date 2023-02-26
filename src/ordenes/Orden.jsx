@@ -8,7 +8,7 @@ import { Button, Divider } from '@mui/material';
 import { deleteOrder } from '../slices/ordenesactivas';
 import { Vuelto } from './Vuelto';
 import Swal from 'sweetalert2';
-import { Scrollbars } from 'react-custom-scrollbars';
+//import { Scrollbars } from 'react-custom-scrollbars';
 
 
 export const Orden = () => {
@@ -102,7 +102,7 @@ export const Orden = () => {
                   },
               }}
           >
-             <Scrollbars autoHide style={{ width: 400, height: 400 }}>
+             {/* <Scrollbars autoHide style={{ width: 400, height: 400 }}> */}
             <Paper elevation={3}>
               <div id='ordenFinal'>
                 {
@@ -126,7 +126,7 @@ export const Orden = () => {
                   <Button onClick={()=>handlerDeleteOrder(index)} style={{ backgroundColor: "#fff"}} variant="contained"><PrintIcon />Imprimir Ticket</Button>
 
                 </Paper>
-                </Scrollbars>
+                {/* </Scrollbars> */}
               </Box> 
             )
           })
