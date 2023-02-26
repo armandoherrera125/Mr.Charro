@@ -139,15 +139,30 @@ export const TableProducts = () => {
         ventana.document.write('<html><head><title style="text-align:center;align-content:center;">Comanda</title>');
         ventana.document.write('</head><body >');
         ventana.document.write('<div style="text-align: center;align-content: center;">');
-        ventana.document.write('<h1>Comanda:</h1>');
-        ventana.document.write('<img style="width: 155px;max-width: 155px;" src="/imagenmrcharro.jpeg" alt="Logotipo"/>'); 
+        ventana.document.write('<img style="width: 0px;max-width: 0px;" src="/imagenmrcharro.jpeg" alt="Logotipo"/>'); 
+        ventana.document.write('<h3>Comanda:</h3>');
 
         //ventana.document.write('<img style="width: 155px;max-width: 155px;" src="https://yt3.ggpht.com/-3BKTe8YFlbA/AAAAAAAAAAI/AAAAAAAAAAA/ad0jqQ4IkGE/s900-c-k-no-mo-rj-c0xffffff/photo.jpg" alt="Logotipo"/>'); 
-        ventana.document.write('<h1>Orden:</h1>');
-        ventana.document.write(data);
-        ventana.document.write(`<h1>Cliente: ${clientName}</h1>`);
-        ventana.document.write(`<h1>Descripcion: ${description}</h1>`);
-        ventana.document.write('<p style="text-align: center;align-content: center;">¡GRACIAS POR SU COMPRA!</p>');
+        ventana.document.write('<h3>Orden:</h3>');
+        //Cantidad: {values.quantity} || Producto: {values.name} = Precio: {values.price * values.quantity}$
+            orderFilter.map((values) => {
+                return (
+                    <div key={values.id}>
+                        {
+                            ventana.document.write(`</h1>Cantidad: ${values.quantity} Producto: ${values.name}</h1><hr />`)
+                            
+                        }
+                        <Divider />
+                    </div>
+                )
+            })
+
+
+
+
+        //ventana.document.write(data);
+        ventana.document.write(`<h3>Cliente: ${clientName}</h1>`);
+        ventana.document.write(`<h3>Descripcion: ${description}</h1>`);
         ventana.document.write('</div>');
         ventana.document.write('</body></html>');
         ventana.document.close();
@@ -260,6 +275,7 @@ export const TableProducts = () => {
               inputProps={{ 'aria-label': 'search' }}
             />
           </Search> */}
+          
                 <TableContainer component={Paper}>
                     <Table sx={{ Width: 100, align: 'center' }} aria-label="simple table">
                         <TableHead>
