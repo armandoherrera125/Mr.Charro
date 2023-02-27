@@ -40,11 +40,17 @@ export const Orden = () => {
     var ventana = window.open('', 'PRINT', 'height=400,width=600');
     ventana.document.write('<html><head><title style="text-align:center;align-content:center;">Ticket</title>');
     ventana.document.write('</head><body >');
-    ventana.document.write('<div style="text-align: left;align-content: left;">');
-    ventana.document.write('<h3>Pre-Cuenta:</h3>');
+
+    ventana.document.write('<div style="text-align: center;align-content: center;">');
+    ventana.document.write('<h3>Pre-Cuenta</h3>');
+
     ventana.document.write('<img style="width: 100px;max-width: 100px;" src="/imagenmrcharro.jpeg" alt="Logotipo"/>'); 
+
+    ventana.document.write('</div>');
+
+    ventana.document.write('<div style="text-align: left;align-content: left;">');
     //ventana.document.write('<img style="width: 155px;max-width: 155px;" src="https://yt3.ggpht.com/-3BKTe8YFlbA/AAAAAAAAAAI/AAAAAAAAAAA/ad0jqQ4IkGE/s900-c-k-no-mo-rj-c0xffffff/photo.jpg" alt="Logotipo"/>'); 
-    ventana.document.write('<h3>Ciudad Paraiso pol 8 #1</h3>');
+    ventana.document.write('<h3>Ciudad Paraiso 1 pol 8 #1</h3>');
     newOrder.map((values) => {
       return (
           <div key={values.id}>
@@ -114,7 +120,7 @@ export const Orden = () => {
                   },
               }}
           >
-              <Scrollbar style={{ width: 400, height: 400 }}> 
+        <Scrollbar style={{ width: 400, height: 400 }}> 
             <Paper elevation={3}>
               <div id='ordenFinal'>
                 {

@@ -140,7 +140,7 @@ export const TableProducts = () => {
         ventana.document.write('</head><body >');
         ventana.document.write('<div style="text-align: center;align-content: center;">');
         ventana.document.write('<img style="width: 0px;max-width: 0px;" src="/imagenmrcharro.jpeg" alt="Logotipo"/>'); 
-        ventana.document.write('<h3>Comanda:</h3>');
+        ventana.document.write('<h3>Comanda</h3>');
 
         //ventana.document.write('<img style="width: 155px;max-width: 155px;" src="https://yt3.ggpht.com/-3BKTe8YFlbA/AAAAAAAAAAI/AAAAAAAAAAA/ad0jqQ4IkGE/s900-c-k-no-mo-rj-c0xffffff/photo.jpg" alt="Logotipo"/>'); 
         ventana.document.write('<h3>Orden:</h3>');
