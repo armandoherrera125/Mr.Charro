@@ -8,7 +8,7 @@ import { Button, Divider } from '@mui/material';
 import { deleteOrder } from '../slices/ordenesactivas';
 import { Vuelto } from './Vuelto';
 import Swal from 'sweetalert2';
-//import { Scrollbars } from 'react-custom-scrollbars';
+import { Scrollbar } from 'react-scrollbars-custom';
 
 
 export const Orden = () => {
@@ -22,7 +22,10 @@ export const Orden = () => {
     let totalValue = 0;
 
     const orderWithoutFormat = ordenes.filter((values, idx)=>idx == index);
+    
     const toFindSomeValues = orderWithoutFormat[0];
+    //console.log(toFindSomeValues);
+
     totalValue = toFindSomeValues[toFindSomeValues.length-1];
     descriptionOrder = toFindSomeValues[toFindSomeValues.length-2];
     nombreCliente = toFindSomeValues[toFindSomeValues.length-3];
@@ -30,23 +33,33 @@ export const Orden = () => {
     const arrayDuringProcess = orderWithoutFormat.map((values, idx) =>{
       newOrder = values.slice(0,values.length-3);
     });
+    console.log(newOrder);
     //TODO Aqui va la logica de imprimir el ticket
     var data=document.getElementById('ordenFinal').innerHTML;
 
     var ventana = window.open('', 'PRINT', 'height=400,width=600');
     ventana.document.write('<html><head><title style="text-align:center;align-content:center;">Ticket</title>');
     ventana.document.write('</head><body >');
-    ventana.document.write('<div style="text-align: center;align-content: center;">');
-    ventana.document.write('<h1>Mr.Charro</h1>');
-    ventana.document.write('<img style="width: 155px;max-width: 155px;" src="/imagenmrcharro.jpeg" alt="Logotipo"/>'); 
+    ventana.document.write('<div style="text-align: left;align-content: left;">');
+    ventana.document.write('<h3>Pre-Cuenta:</h3>');
+    ventana.document.write('<img style="width: 100px;max-width: 100px;" src="/imagenmrcharro.jpeg" alt="Logotipo"/>'); 
     //ventana.document.write('<img style="width: 155px;max-width: 155px;" src="https://yt3.ggpht.com/-3BKTe8YFlbA/AAAAAAAAAAI/AAAAAAAAAAA/ad0jqQ4IkGE/s900-c-k-no-mo-rj-c0xffffff/photo.jpg" alt="Logotipo"/>'); 
-    ventana.document.write('<h1>Col.Paraiso calle principal pasaje numero 8:</h1>');
-    ventana.document.write('<h1>Orden:</h1>');
-    ventana.document.write(data);
-    ventana.document.write(`<h1>Cliente: ${nombreCliente}</h1>`);
-    ventana.document.write(`<h1>Descripcion: ${descriptionOrder}</h1>`);
-    ventana.document.write(`<h1>Total: ${totalValue}</h1>`);
-    ventana.document.write('<p style="text-align: center;align-content: center;">¡GRACIAS POR SU COMPRA!</p>');
+    ventana.document.write('<h3>Ciudad Paraiso pol 8 #1</h3>');
+    newOrder.map((values) => {
+      return (
+          <div key={values.id}>
+              {
+                  ventana.document.write(`</h1>Cantidad: ${values.quantity} Producto: ${values.name}</h1><hr />`)
+                  
+              }
+              <Divider />
+          </div>
+      )
+  })
+    
+    ventana.document.write(`<h3>Cliente: ${nombreCliente}</h3>`);
+    ventana.document.write(`<h3>Total: ${totalValue}</h3>`);
+    ventana.document.write('<p style="text-align: left;align-content: left;">¡GRACIAS POR SU COMPRA!</p>');
     ventana.document.write('</div>');
     ventana.document.write('</body></html>');
     ventana.document.close();
@@ -75,7 +88,6 @@ export const Orden = () => {
   return (
     <>
       <h2> Ordenes Activas</h2>
-      
       <div>
         {
           ordenes?.map((ordenesList, index) => {
@@ -102,7 +114,7 @@ export const Orden = () => {
                   },
               }}
           >
-             {/* <Scrollbars autoHide style={{ width: 400, height: 400 }}> */}
+              <Scrollbar style={{ width: 400, height: 400 }}> 
             <Paper elevation={3}>
               <div id='ordenFinal'>
                 {
@@ -126,7 +138,7 @@ export const Orden = () => {
                   <Button onClick={()=>handlerDeleteOrder(index)} style={{ backgroundColor: "#fff"}} variant="contained"><PrintIcon />Imprimir Ticket</Button>
 
                 </Paper>
-                {/* </Scrollbars> */}
+                </Scrollbar>
               </Box> 
             )
           })
