@@ -31,6 +31,12 @@ import Divider from '@mui/material/Divider';
 import { addOrder } from './slices/ordenesactivas';
 import { Search } from '@mui/icons-material';
 export const TableProducts = () => {
+
+
+    function ccyFormat(num) {
+        console.log(num);
+        return `${num.toFixed(2)}`;
+      }
     const requestAgain = useSelector((state) => state.requestAgain);
     const [nameAndDescription, setinputnameAndDescription] = useState({
         clientName: "",
@@ -385,7 +391,7 @@ export const TableProducts = () => {
 
                         <TextField sx={{ marginLeft: 2, marginTop: 5 }} name='description' type="text" value={description} onChange={handleInputChangeND} id="outlined-basic" label="Descripcion" variant="outlined" />
                         
-                        <h1>Total: $ {total}</h1>
+                        <h1>Total: $ {ccyFormat(total)}</h1>
                         <Button disabled={!clientName || !description} onClick={handlerOrden} style={{ marginTop: 10 }} variant="contained"><AddShoppingCartIcon />Agregar Orden</Button>
                     </Paper>
 
